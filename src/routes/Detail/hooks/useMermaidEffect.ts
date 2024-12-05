@@ -12,7 +12,7 @@ const waitForMermaid = (interval = 100, timeout = 5000) => {
   return new Promise<HTMLCollectionOf<Element>>((resolve, reject) => {
     const startTime = Date.now()
     const elements: HTMLCollectionOf<Element> =
-      document.getElementsByClassName("language-mermaid")
+        document.getElementsByClassName("language-mermaid")
 
     const checkMerMaidCode = () => {
       if (mermaid.render !== undefined && elements.length > 0) {
@@ -44,35 +44,35 @@ const useMermaidEffect = () => {
     if (!document) return
 
     waitForMermaid()
-      .then(async (elements) => {
-        const promises = Array.from(elements)
-          .filter((elements) => elements.tagName === "PRE")
-          .map(async (element, i) => {
-            if (memoMermaid.get(i) !== undefined) {
-              const svg = await mermaid
-                .render("mermaid" + i, memoMermaid.get(i) || "")
-                .then((res) => res.svg)
-              element.animate(
-                [
-                  { easing: "ease-in", opacity: 0 },
-                  { easing: "ease-out", opacity: 1 },
-                ],
-                { duration: 300, fill: "both" }
-              )
-              element.innerHTML = svg
-              return
-            }
-            const svg = await mermaid
-              .render("mermaid" + i, element.textContent || "")
-              .then((res) => res.svg)
-            setMemoMermaid(memoMermaid.set(i, element.textContent ?? ""))
-            element.innerHTML = svg
-          })
-        await Promise.all(promises)
-      })
-      .catch((error) => {
-        console.warn(error)
-      })
+        .then(async (elements) => {
+          const promises = Array.from(elements)
+              .filter((elements) => elements.tagName === "PRE")
+              .map(async (element, i) => {
+                if (memoMermaid.get(i) !== undefined) {
+                  const svg = await mermaid
+                      .render("mermaid" + i, memoMermaid.get(i) || "")
+                      .then((res) => res.svg)
+                  element.animate(
+                      [
+                        { easing: "ease-in", opacity: 0 },
+                        { easing: "ease-out", opacity: 1 },
+                      ],
+                      { duration: 300, fill: "both" }
+                  )
+                  element.innerHTML = svg
+                  return
+                }
+                const svg = await mermaid
+                    .render("mermaid" + i, element.textContent || "")
+                    .then((res) => res.svg)
+                setMemoMermaid(memoMermaid.set(i, element.textContent ?? ""))
+                element.innerHTML = svg
+              })
+          await Promise.all(promises)
+        })
+        .catch((error) => {
+          console.warn(error)
+        })
   }, [data, isFetched])
 
   return

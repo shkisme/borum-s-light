@@ -12,10 +12,10 @@ const Detail: React.FC<Props> = () => {
 
   if (!data) return null
   return (
-    <StyledWrapper data-type={data.type}>
-      {data.type[0] === "Page" && <PageDetail />}
-      {data.type[0] !== "Page" && <PostDetail />}
-    </StyledWrapper>
+      <StyledWrapper data-type={data.type}>
+        {data.type[0] === "Page" && <PageDetail />}
+        {data.type[0] !== "Page" && <PostDetail />}
+      </StyledWrapper>
   )
 }
 

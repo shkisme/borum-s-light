@@ -1,41 +1,48 @@
 import PostCard from "src/routes/Feed/PostList/PostCard"
 import React, { useMemo } from "react"
+import { useRouter } from "next/router"
 import usePostsQuery from "src/hooks/usePostsQuery"
 import styled from "@emotion/styled"
 import { filterPosts } from "./filterPosts"
 import { DEFAULT_CATEGORY } from "src/constants"
 
 type Props = {
-  q: string
+    q: string
 }
 
 const PinnedPosts: React.FC<Props> = ({ q }) => {
-  const data = usePostsQuery()
+    const router = useRouter()
+    const data = usePostsQuery()
 
-  const filteredPosts = useMemo(() => {
-    const baseFiltered = filterPosts({
-      posts: data,
-      q,
-      category: DEFAULT_CATEGORY,
-      order: "desc",
-    })
-    return baseFiltered.filter((post) => post.tags?.includes("Pinned"))
-  }, [data, q])
+    const currentTag = `${router.query.tag || ``}` || undefined
+    const currentCategory = `${router.query.category || ``}` || DEFAULT_CATEGORY
 
-  if (filteredPosts.length === 0) return null
+    const filteredPosts = useMemo(() => {
+        const baseFiltered = filterPosts({
+            posts: data,
+            q,
+            category: DEFAULT_CATEGORY,
+            order: "desc",
+        })
+        return baseFiltered.filter((post) => post.tags?.includes("5::🛠️ 기타::Pinned"))
+    }, [data, q])
 
-  return (
-    <StyledWrapper>
-      <div className="wrapper">
-        <div className="header">📌 Pinned Posts</div>
-      </div>
-      <div className="my-2">
-        {filteredPosts.map((post) => (
-          <PostCard key={post.slug} data={post} />
-        ))}
-      </div>
-    </StyledWrapper>
-  )
+    if (currentTag || currentCategory !== DEFAULT_CATEGORY) return null
+
+    if (filteredPosts.length === 0) return null
+
+    return (
+        <StyledWrapper>
+            <div className="wrapper">
+                <div className="header">📌 Pinned Posts</div>
+            </div>
+            <div className="my-2">
+                {filteredPosts.map((post) => (
+                    <PostCard key={post.slug} data={post} showMedia={false} />
+                ))}
+            </div>
+        </StyledWrapper>
+    )
 }
 
 export default PinnedPosts
