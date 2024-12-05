@@ -61,7 +61,7 @@ const CONFIG = {
   utterances: {
     enable: true,
     config: {
-      repo: process.env.NEXT_PUBLIC_UTTERANCES_REPO || "shkisme/shkisme-log",
+      repo: process.env.NEXT_PUBLIC_UTTERANCES_REPO || "shkisme/borums-light",
       "issue-term": "og:title",
     },
   },
